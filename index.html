@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>导师 | 个人主页</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            background: linear-gradient(to bottom, #ffccd5, #ffe6eb);
+            color: #000;
+            overflow-x: hidden;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .sakura-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        /* 超粗黑边艺术字 */
+        .title {
+            font-size: 3.8rem;
+            font-family: "KaiTi","STKaiti",SimHei,serif;
+            font-weight: 900;
+            color: #ffc0cb;
+            text-shadow:
+                3px 3px 0 #000,
+                -3px 3px 0 #000,
+                3px -3px 0 #000,
+                -3px -3px 0 #000,
+                3px 0 0 #000,
+                -3px 0 0 #000,
+                0 3px 0 #000,
+                0 -3px 0 #000;
+            margin: 0;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #000;
+            margin: 12px 0 25px;
+        }
+        .tags {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .tags span {
+            background: rgba(255,192,203,0.25);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: #000;
+        }
+
+        section {
+            margin-bottom: 50px;
+        }
+        h2 {
+            color: #ffc0cb;
+            text-shadow: 2px 2px 0 #000;
+            border-bottom: 2px solid rgba(0,0,0,0.2);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .skill-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .skill-item {
+            background: rgba(255,255,255,0.3);
+            padding: 20px;
+            border-radius: 10px;
+            color: #000;
+        }
+        .skill-item h3 {
+            color: #000;
+            margin-bottom: 8px;
+        }
+        .about p,.contact p {
+            line-height: 1.8;
+            color: #000;
+            font-size: 16px;
+        }
+
+        .contact {
+            background: rgba(255,255,255,0.25);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .qq-item {
+            margin: 15px 0;
+        }
+        .qq-item strong {
+            font-size: 1.1rem;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .footer {
+            text-align: center;
+            color: #000;
+            font-size: 0.9rem;
+            padding: 20px 0;
+        }
+
+        .music-btn{
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255,192,203,0.4);
+            border: 1px solid #000;
+            color: #000;
+            font-size: 22px;
+            cursor: pointer;
+            z-index: 999;
+        }
+        .disk-cover-wrap {
+            position: fixed;
+            bottom: 85px;
+            right: 22px;
+            z-index: 998;
+        }
+        .disk-cover {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid #000;
+            object-fit: cover;
+            background: #ffc0cb;
+        }
+        .min-cover-btn {
+            position: absolute;
+            top: -12px;
+            right: -8px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #000;
+            color: #fff;
+            font-size: 14px;
+            border:none;
+            cursor: pointer;
+        }
+        .control-box{
+            position: fixed;
+            bottom: 145px;
+            right: 18px;
+            width: 75px;
+            z-index: 997;
+        }
+        .time-text,.vol-tip{
+            color: #000;
+            font-size: 10px;
+            text-align: center;
+            margin: 4px 0;
+        }
+        .music-progress,.vol-progress{
+            width: 100%;
+            height: 4px;
+            border-radius: 2px;
+            background: #00000020;
+            outline: none;
+            -webkit-appearance: none;
+            margin: 3px 0;
+        }
+        .music-progress::-webkit-slider-thumb,
+        .vol-progress::-webkit-slider-thumb{
+            -webkit-appearance: none;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #000;
+        }
+        @keyframes rotateDisk {
+            to { transform: rotate(360deg); }
+        }
+        .running{animation: rotateDisk 12s linear infinite;}
+        .stop{animation-play-state: paused;}
+    </style>
+</head>
+<body>
+    <div class="sakura-bg"></div>
+
+    <div class="disk-cover-wrap" id="coverWrap">
+        <button class="min-cover-btn" id="minCoverBtn">－</button>
+        <img class="disk-cover stop" id="coverImg" alt="音乐封面">
+    </div>
+
+    <div class="control-box">
+        <input type="range" class="music-progress" id="progressBar" min="0" max="100">
+        <div class="time-text" id="timeShow">00:00 / 00:00</div>
+        <div class="vol-tip">音量</div>
+        <input type="range" class="vol-progress" id="volBar" value="80" min="0" max="100">
+    </div>
+
+    <button class="music-btn" id="musicBtn">♪</button>
+    <audio id="bgm" preload="auto">
+
+    <div class="container">
+        <header class="hero">
+            <h1 class="title">导师</h1>
+            <p class="subtitle">小众 · 折腾 · 技术 · 自由</p>
+            <div class="tags">
+                <span>#Python</span>
+                <span>#安卓改造</span>
+                <span>#游戏研究</span>
+                <span>#逆向开发</span>
+            </div>
+        </header>
+
+        <section class="about">
+            <h2>关于本站</h2>
+            <p>
+                欢迎来到 导师 の 个人站点。
+                我是一名热爱技术的高中生，偏爱折腾各类设备与程序。
+                不随波逐流，只专注自己的热爱，用技术创造便利与乐趣。
+            </p>
+        </section>
+
+        <section class="skills">
+            <h2>能力范围</h2>
+            <div class="skill-list">
+                <div class="skill-item">
+                    <h3>Python 开发</h3>
+                    <p>自动化脚本、数据处理、批量工具开发</p>
+                </div>
+                <div class="skill-item">
+                    <h3>安卓深度定制</h3>
+                    <p>Root、内核、模块、框架美化与功能改造</p>
+                </div>
+                <div class="skill-item">
+                    <h3>游戏机制解析</h3>
+                    <p>内存调试、数据分析、玩法深度研究</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact">
+            <h2>联系方式</h2>
+            <div class="qq-item">
+                <p>QQ①：<strong onclick="openQQHome(2186976793)">2186976793</strong>（技术交流 / 折腾合作）</p>
+            </div>
+            <div class="qq-item">
+                <p>QQ②：<strong onclick="openQQHome(2475755118)">2475755118</strong>（备用联系 / 日常闲聊）</p>
+            </div>
+            <p style="margin-top:15px;">欢迎交流技术、折腾、开发相关内容。</p>
+        </section>
+
+        <footer class="footer">
+            <p>© 2026 导师 | 专属域名 daoshinb666.com</p>
+        </footer>
+    </div>
+
+    <script>
+        function openQQHome(qq){
+            let url = `tencent://profile/?uin=${qq}`;
+            let webUrl = `https://user.qzone.qq.com/${qq}`;
+            window.location.href = url;
+            setTimeout(()=>{
+                window.open(webUrl,'_blank');
+            },300);
+        }
+
+        document.addEventListener('DOMContentLoaded',()=>{
+            const bg = document.querySelector('.sakura-bg');
+            for(let i=0;i<35;i++){
+                let p = document.createElement('div');
+                p.style.cssText = `
+                    position:absolute;top:-10px;left:${Math.random()*100}%;
+                    width:${Math.random()*8+4}px;height:${Math.random()*8+4}px;
+                    background:rgba(255,182,193,0.55);border-radius:50%;
+                    animation:fall ${Math.random()*6+4}s linear infinite;
+                `;
+                bg.appendChild(p);
+            }
+        });
+
+        const musicList = [
+            {src:"https://music.163.com/song/media/outer/url?id=1906795321.mp3",cover:"https://picsum.photos/id/1041/300/300"},
+            {src:"https://music.163.com/song/media/outer/url?id=29755535.mp3",cover:"https://picsum.photos/id/1039/300/300"},
+            {src:"https://music.163.com/song/media/outer/url?id=1448054126.mp3",cover:"https://picsum.photos/id/1042/300/300"},
+            {src:"https://music.163.com/song/media/outer/url?id=347303.mp3",cover:"https://picsum.photos/id/1036/300/300"},
+            {src:"https://music.163.com/song/media/outer/url?id=346716.mp3",cover:"https://picsum.photos/id/1038/300/300"}
+        ];
+
+        const bgm = document.getElementById('bgm');
+        const btn = document.getElementById('musicBtn');
+        const coverImg = document.getElementById('coverImg');
+        const coverWrap = document.getElementById('coverWrap');
+        const minCoverBtn = document.getElementById('minCoverBtn');
+        const progressBar = document.getElementById('progressBar');
+        const timeShow = document.getElementById('timeShow');
+        const volBar = document.getElementById('volBar');
+
+        let isPlay = false,nowIndex = 0,hideCover = false;
+
+        function formatTime(s){
+            if(isNaN(s))return"00:00";
+            let m=Math.floor(s/60),ss=Math.floor(s%60);
+            return (m<10?"0"+m:m)+":"+(ss<10?"0"+ss:ss);
+        }
+        function nextMusic(){
+            nowIndex=(nowIndex+1)%musicList.length;
+            bgm.src=musicList[nowIndex].src;
+            coverImg.src=musicList[nowIndex].cover;
+        }
+
+        bgm.src=musicList[0].src;
+        coverImg.src=musicList[0].cover;
+        bgm.volume=0.8;
+
+        minCoverBtn.onclick=()=>{
+            hideCover=!hideCover;
+            coverWrap.style.opacity=hideCover?0:1;
+            coverWrap.style.visibility=hideCover?"hidden":"visible";
+            minCoverBtn.innerText=hideCover?"＋":"－";
+        };
+
+        document.addEventListener('click',()=>{
+            if(!isPlay){
+                bgm.play();
+                isPlay=true;
+                btn.innerText="⏸";
+                coverImg.classList.add("running");
+            }
+        },{once:true});
+
+        btn.onclick=()=>{
+            if(bgm.paused){bgm.play();btn.innerText="⏸";coverImg.classList.add("running");}
+            else{bgm.pause();btn.innerText="♪";coverImg.classList.remove("running");}
+        };
+
+        bgm.ontimeupdate=()=>{
+            let c=bgm.currentTime,d=bgm.duration;
+            if(!isNaN(d))progressBar.value=(c/d)*100;
+            timeShow.innerText=formatTime(c)+" / "+formatTime(d);
+        };
+        progressBar.oninput=()=>bgm.currentTime=this.value/100*bgm.duration;
+        volBar.oninput=()=>bgm.volume=this.value/100;
+        bgm.onended=nextMusic;
+    </script>
+</body>
+</html>
