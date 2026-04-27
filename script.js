@@ -1,78 +1,34 @@
-// 原有：导师 打字机效果
-const title = document.querySelector('.title');
-const text = "导师";
-let index = 0;
+// 樱花飘落效果
+document.addEventListener('DOMContentLoaded', () => {
+    const sakuraBg = document.querySelector('.sakura-bg');
+    if (!sakuraBg) return;
 
-function typeWriter() {
-    if (index < text.length) {
-        title.textContent = text.substring(0, index + 1);
-        index++;
-        setTimeout(typeWriter, 300);
-    } else {
-        title.innerHTML = text + '<span class="cursor">|</span>';
+    function createPetal() {
+        const petal = document.createElement('div');
+        petal.style.position = 'absolute';
+        petal.style.width = Math.random() * 10 + 5 + 'px';
+        petal.style.height = petal.style.width;
+        petal.style.background = 'rgba(255,182,193,0.6)';
+        petal.style.borderRadius = '50%';
+        petal.style.top = '-10px';
+        petal.style.left = Math.random() * 100 + '%';
+        petal.style.animation = `fall ${Math.random() * 5 + 5}s linear infinite`;
+        sakuraBg.appendChild(petal);
     }
-}
 
-window.addEventListener('load', () => {
-    title.textContent = '';
-    typeWriter();
+    for (let i = 0; i < 30; i++) {
+        createPetal();
+    }
 });
 
-// 光标闪烁
+// 飘落动画
 const style = document.createElement('style');
 style.textContent = `
-.cursor {
-    animation: blink 1s infinite;
-    color: #ffc0cb;
-}
-@keyframes blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
-}
+    @keyframes fall {
+        to {
+            transform: translateY(100vh) rotate(720deg);
+            opacity: 0;
+        }
+    }
 `;
 document.head.appendChild(style);
-
-// 新增：动态樱花飘落特效
-(function(){
-    let sakuraCount = 45;
-    let sakura = [];
-    const body = document.querySelector('body');
-
-    for(let i = 0; i < sakuraCount; i++){
-        let leaf = document.createElement('div');
-        leaf.style.cssText = `
-            position:fixed;
-            top:-10%;
-            background:#ffcfe0;
-            border-radius:50%;
-            opacity:${Math.random()*0.6+0.4};
-            z-index:-1;
-        `;
-        let size = Math.random()*8 + 4;
-        leaf.style.width = size + 'px';
-        leaf.style.height = size + 'px';
-        body.appendChild(leaf);
-        sakura.push({
-            el:leaf,
-            x:Math.random()*100,
-            y:Math.random()*100 - 100,
-            speedX:Math.random()*0.4 - 0.2,
-            speedY:Math.random()*1.2 + 0.6
-        });
-    }
-
-    function run(){
-        sakura.forEach(item=>{
-            item.x += item.speedX;
-            item.y += item.speedY;
-            if(item.y > 105){
-                item.y = -10;
-                item.x = Math.random()*100;
-            }
-            item.el.style.left = item.x + '%';
-            item.el.style.top = item.y + '%';
-        })
-        requestAnimationFrame(run);
-    }
-    run();
-})();
