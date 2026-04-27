@@ -7,7 +7,6 @@
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
         body{
-            /* 上天空蓝 下深海蓝 垂直渐变过渡 */
             background: linear-gradient(to bottom, #87b8e8, #4068a0, #102040, #081020);
             color:#f1f5f9;
             min-height:100vh;
@@ -15,8 +14,6 @@
             overflow-x: hidden;
             position: relative;
         }
-
-        /* 纯CSS静态星星 轻量化不卡 */
         body::before{
             content:"";
             position:fixed;
@@ -32,12 +29,10 @@
                 radial-gradient(1px 1px at 10% 90%, #fff, transparent),
                 radial-gradient(1px 1px at 50% 95%, #fff, transparent),
                 radial-gradient(1.5px 1.5px at 75% 15%, #fff, transparent);
-            background-repeat:repeat;
             opacity:0.75;
             pointer-events:none;
             z-index:0;
         }
-
         .container{
             width:93%;
             max-width:820px;
@@ -121,8 +116,6 @@
             cursor:pointer;
             z-index: 1000;
         }
-
-        /* 点击波纹特效 轻量不卡顿 */
         .click-wave {
             position: fixed;
             width: 20px;
@@ -137,8 +130,6 @@
             0% {transform: scale(1);opacity: 0.8;}
             100% {transform: scale(8);opacity: 0;}
         }
-
-        /* 新增：联系方式样式 */
         .contact-item {
             display: flex;
             align-items: center;
@@ -150,9 +141,30 @@
             height: 40px;
             border-radius: 50%;
             border: 1px solid rgba(255,255,255,.2);
+            cursor: pointer;
+            transition: 0.2s;
+            background:#fff;
         }
-        .contact-item p {
-            color: #e2e8f0;
+        .contact-item img:hover{
+            transform: scale(1.08);
+            box-shadow: 0 0 8px #ffc8dd;
+        }
+        .user-desc{
+            color:#cbd5e1;
+            margin:4px 0;
+            font-size:0.9rem;
+        }
+        .auth-tag{
+            display:inline-block;
+            padding:2px 8px;
+            background:#ffc8dd;
+            color:#000;
+            border-radius:6px;
+            font-size:0.75rem;
+            margin:4px 0;
+        }
+        .star{
+            color:#ffd700;
         }
     </style>
 </head>
@@ -191,18 +203,38 @@
             </div>
         </div>
 
-        <!-- 新增：联系方式板块 -->
         <section class="card">
             <h2>联系方式</h2>
             <div class="contact-item">
-                <img src="https://q1.qlogo.cn/g?b=qq&nk=2186976793&s=100">
+                <img onclick="window.open('https://user.qzone.qq.com/2186976793','_blank')" 
+                     src="https://q2.qlogo.cn/headimg_dl?dst_uin=2186976793&spec=100"
+                     onerror="this.src='https://q.qlogo.cn/headimg_dl?dst_uin=0&spec=100';">
                 <p>QQ①：<strong style="color:#ffc8dd;">2186976793</strong></p>
             </div>
             <div class="contact-item">
-                <img src="https://q1.qlogo.cn/g?b=qq&nk=2475755118&s=100">
+                <img onclick="window.open('https://user.qzone.qq.com/2475755118','_blank')" 
+                     src="https://q2.qlogo.cn/headimg_dl?dst_uin=2475755118&spec=100"
+                     onerror="this.src='https://q.qlogo.cn/headimg_dl?dst_uin=0&spec=100';">
                 <p>QQ②：<strong style="color:#ffc8dd;">2475755118</strong></p>
             </div>
             <p style="margin-top:15px;color:#cbd5e1;">欢迎同好交流蝴蝶刀、长跑、游戏、编程、淘机、数码折腾等内容。</p>
+        </section>
+
+        <!-- 挚友板块 -->
+        <section class="card">
+            <h2>挚友</h2>
+            <div class="contact-item">
+                <img onclick="window.open('https://user.qzone.qq.com/3767734019','_blank')" 
+                     src="https://q2.qlogo.cn/headimg_dl?dst_uin=3767734019&spec=100"
+                     onerror="this.src='https://q.qlogo.cn/headimg_dl?dst_uin=0&spec=100';">
+                <div>
+                    <p>昵称：<strong style="color:#ffc8dd;">古月</strong></p>
+                    <p>QQ：<strong style="color:#ffc8dd;">3767734019</strong></p>
+                </div>
+            </div>
+            <p class="user-desc">简介：擅长淘机 和平大手子</p>
+            <span class="auth-tag">✅ 作者认证</span>
+            <p class="user-desc">推荐指数：<span class="star">⭐⭐⭐⭐⭐</span></p>
         </section>
 
         <footer>
@@ -211,10 +243,10 @@
     </div>
 
     <button class="music-btn" id="musicBtn">♪</button>
-    <audio id="bgm" preload="metadata">
+    <audio id="bgm" preload="auto">
 
     <script>
-        // 点击波纹特效
+        // 点击波纹
         document.addEventListener('click',function(e){
             let ripple = document.createElement('div');
             ripple.className = 'click-wave';
@@ -224,21 +256,30 @@
             setTimeout(()=> ripple.remove(),600);
         })
 
-        // 音乐功能
+        // 音乐
         const musicList = [
-            {src:"https://music.163.com/song/media/outer/url?id=1906795321.mp3"},
-            {src:"https://music.163.com/song/media/outer/url?id=29755535.mp3"},
-            {src:"https://music.163.com/song/media/outer/url?id=1448054126.mp3"}
+            "https://music.163.com/song/media/outer/url?id=1906795321.mp3",
+            "https://music.163.com/song/media/outer/url?id=29755535.mp3",
+            "https://music.163.com/song/media/outer/url?id=1448054126.mp3"
         ];
         const bgm = document.getElementById('bgm');
         const btn = document.getElementById('musicBtn');
         let idx = 0;
-        bgm.src = musicList[0].src;
+        bgm.src = musicList[idx];
         bgm.volume = 0.65;
-        btn.onclick = () => bgm.paused ? bgm.play() : bgm.pause();
+
+        btn.onclick = () => {
+            if(bgm.paused){
+                bgm.play();
+                btn.innerText = "⏸";
+            }else{
+                bgm.pause();
+                btn.innerText = "♪";
+            }
+        };
         bgm.onended = ()=>{
             idx = (idx+1) % musicList.length;
-            bgm.src = musicList[idx].src;
+            bgm.src = musicList[idx];
             bgm.play();
         };
     </script>
