@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>古月 | 专属官网</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{
+            background: linear-gradient(to bottom, #87b8e8, #4068a0, #102040, #081020);
+            color:#f1f5f9;
+            min-height:100vh;
+            font-family:"Noto Serif SC", serif;
+            overflow-x: hidden;
+            position: relative;
+            padding-bottom: 120px;
+        }
+        body::before{
+            content:"";
+            position:fixed;top:0;left:0;
+            width:100%;height:100%;
+            background-image:
+                radial-gradient(1px 1px at 15% 20%, #fff, transparent),
+                radial-gradient(1px 1px at 35% 55%, #fff, transparent),
+                radial-gradient(1.5px 1.5px at 70% 40%, #fff, transparent),
+                radial-gradient(1px 1px at 90% 60%, #fff, transparent),
+                radial-gradient(1px 1px at 50% 80%, #fff, transparent);
+            opacity:0.7;
+            pointer-events:none;z-index:0;
+        }
+        .container{
+            width:92%;max-width:750px;margin:0 auto;padding:50px 15px;
+            position:relative;z-index:1;
+        }
+        .avatar{
+            width:120px;height:120px;border-radius:50%;
+            display:block;margin:0 auto 20px;
+            border:2px solid rgba(255,255,255,.15);
+            object-fit: cover;
+            background:#fff;
+        }
+        h1{
+            text-align:center;font-size:2.4rem;
+            color:#ffc8dd;margin-bottom:6px;
+            font-family:"Noto Serif SC", serif;
+        }
+        .sign{
+            text-align:center;color:#cbd5e1;margin-bottom:35px;
+        }
+        .card{
+            background:rgba(0,20,40,.25);
+            backdrop-filter:blur(6px);
+            border:1px solid rgba(255,255,255,.08);
+            border-radius:14px;padding:20px;margin-bottom:20px;
+        }
+        h2{
+            color:#ffc8dd;border-left:3px solid #ffc8dd;
+            padding-left:10px;margin-bottom:15px;font-size:1.3rem;
+        }
+        .info-text{color:#e2e8f0;line-height:1.7;}
+        .auth{
+            display:inline-block;background:#ffc8dd;color:#000;
+            padding:3px 10px;border-radius:8px;font-size:0.8rem;margin:6px 0;
+        }
+        .star{color:#ffd700;font-size:1.1rem;}
+        footer{
+            text-align:center;margin-top:60px;color:#94a3b8;font-size:0.85rem;
+        }
+        .click-wave{
+            position:fixed;width:20px;height:20px;border-radius:50%;
+            border:2px solid #ffc8dd;border-radius:50%;
+            pointer-events:none;animation:ripple 0.6s ease-out forwards;
+            z-index:999;
+        }
+        @keyframes ripple{
+            0%{transform:scale(1);opacity:0.8;}
+            100%{transform:scale(8);opacity:0;}
+        }
+        /* 歌词UI优化 */
+        .lyric-wrap{
+            width: 100%;
+            height: 280px;
+            overflow: hidden;
+            position: relative;
+            margin: 30px 0;
+            border-radius: 16px;
+            background: rgba(0, 15, 30, 0.4);
+            border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        }
+        .lyric-box{
+            font-size: 1.1rem;
+            line-height: 2.8;
+            color: #b8c8e0;
+            text-align: center;
+            transition: transform 0.8s cubic-bezier(0.2, 0.6, 0.2, 1);
+            padding: 20px 0;
+            letter-spacing: 1px;
+        }
+        .lyric-line{
+            transition: all 0.5s ease;
+            opacity: 0.35;
+            transform: scale(0.96);
+        }
+        .lyric-line.active{
+            opacity: 1;
+            color: #ffc8dd;
+            transform: scale(1.08);
+            font-weight: 700;
+            text-shadow: 0 0 12px rgba(255,200,221,0.6);
+        }
+        .music-player{
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0,15,30,0.85);
+            backdrop-filter: blur(12px);
+            padding: 12px 20px;
+            z-index: 99;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .progress-wrap{
+            width: 100%;
+            height: 5px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 8px;
+        }
+        .progress-bar{
+            height: 100%;
+            background: linear-gradient(90deg,#ffc8dd,#ffafcc);
+            border-radius: 5px;
+            width: 0%;
+        }
+        .time-text{
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 更换为Github Pages兼容的头像地址 -->
+        <img class="avatar" src="https://api.adorable.io/avatars/120/3767734019.png" alt="古月">
+
+        <h1>古月</h1>
+        <p class="sign">挚友 · 同行</p>
+
+        <div class="card">
+            <h2>个人简介</h2>
+            <p class="info-text">擅长淘机，和平精英大手子，性格随和，喜欢一起交流玩耍。</p>
+        </div>
+
+        <div class="card">
+            <h2>联系方式</h2>
+            <p class="info-text">QQ：<strong style="color:#ffc8dd;">3767734019</strong></p>
+            <span class="auth">✅ 作者认证</span>
+            <p class="info-text">综合推荐指数：<span class="star">⭐⭐⭐⭐⭐</span></p>
+        </div>
+
+        <div class="lyric-wrap">
+            <div class="lyric-box" id="lyricBox"></div>
+        </div>
+
+        <footer>
+            © 2026 古月 专属官网
+        </footer>
+    </div>
+
+    <div class="music-player">
+        <div class="progress-wrap" id="progressWrap">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="time-text">
+            <span id="currentTime">00:00</span>
+            <span id="totalTime">00:00</span>
+        </div>
+    </div>
+
+    <!-- 换用稳定的音源 -->
+    <audio id="audio" preload="auto" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    
+
+    <script>
+        document.addEventListener('click',e=>{
+            let d = document.createElement('div');
+            d.className = 'click-wave';
+            d.style.left = e.clientX+'px';
+            d.style.top = e.clientY+'px';
+            document.body.appendChild(d);
+            setTimeout(()=>d.remove(),600);
+        })
+
+        // 蛊真人 - 年轮 完整歌词
+        const lyricList = [
+            {time: 0, text: ""},
+            {time: 16, text: "荒芜世间 几度枯荣"},
+            {time: 20, text: "人心深浅 善恶难容"},
+            {time: 24, text: "一世独行 风雨相拥"},
+            {time: 28, text: "执念难解 宿命重重"},
+            {time: 32, text: "因果辗转 轮回不休"},
+            {time: 36, text: "爱恨纠缠 化作尘忧"},
+            {time: 40, text: "万般算计 皆为所求"},
+            {time: 44, text: "一念成佛 一念成囚"},
+            {time: 49, text: "岁月刻下无数个年轮"},
+            {time: 53, text: "藏尽世间虚伪与沉沦"},
+            {time: 57, text: "步步为营 耗尽青春"},
+            {time: 61, text: "孤身走过乱世浮沉"},
+            {time: 66, text: "命运织就无解的剧本"},
+            {time: 70, text: "善恶对错都沦为烟尘"},
+            {time: 74, text: "山河万里 孑然一身"},
+            {time: 79, text: "只剩年轮 铭记半生"}
+        ];
+
+        const audio = document.getElementById('audio');
+        const lyricBox = document.getElementById('lyricBox');
+        const progressBar = document.getElementById('progressBar');
+        const progressWrap = document.getElementById('progressWrap');
+        const currentTimeEl = document.getElementById('currentTime');
+        const totalTimeEl = document.getElementById('totalTime');
+
+        // 渲染歌词
+        lyricList.forEach(item=>{
+            let p = document.createElement('p');
+            p.className = 'lyric-line';
+            p.innerText = item.text;
+            lyricBox.appendChild(p);
+        })
+        const lineDom = document.querySelectorAll('.lyric-line');
+        let nowActiveIndex = 0;
+
+        function formatTime(s){
+            let m = Math.floor(s / 60);
+            let ss = Math.floor(s % 60);
+            return `${m.toString().padStart(2,'0')}:${ss.toString().padStart(2,'0')}`;
+        }
+
+        // 页面加载后播放
+        window.addEventListener('load',()=>{
+            audio.volume = 0.65;
+            audio.play().catch(err=>console.log("自动播放被阻止:", err));
+        })
+
+        // 歌词和进度条更新
+        audio.addEventListener('timeupdate',()=>{
+            let cur = audio.currentTime;
+            let dur = audio.duration || 0;
+            let percent = dur ? (cur / dur) * 100 : 0;
+            progressBar.style.width = percent + '%';
+            currentTimeEl.innerText = formatTime(cur);
+            totalTimeEl.innerText = formatTime(dur);
+
+            let curIndex = 0;
+            for(let i = 0; i < lyricList.length; i++){
+                if(cur >= lyricList[i].time) curIndex = i;
+            }
+
+            if(curIndex !== nowActiveIndex){
+                lineDom[nowActiveIndex].classList.remove('active');
+                lineDom[curIndex].classList.add('active');
+                nowActiveIndex = curIndex;
+                let scrollTop = (curIndex - 3) * 44;
+                lyricBox.style.transform = `translateY(-${scrollTop}px)`;
+            }
+        })
+
+        // 点击进度条跳转
+        progressWrap.addEventListener('click',e=>{
+            let rect = progressWrap.getBoundingClientRect();
+            let x = e.clientX - rect.left;
+            let p = x / rect.width;
+            if(audio.duration) audio.currentTime = audio.duration * p;
+        })
+    </script>
+</body>
+</html>
